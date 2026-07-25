@@ -1,0 +1,22 @@
+workload:
+  type: deployment
+
+nameOverride: orders-api
+
+image:
+  repository: myrepo/orders
+  tag: 1.2.0
+
+containerPort: 8080
+
+service:
+  port: 80
+
+ingress:
+  enabled: true
+  host: orders.example.com
+
+hpa:
+  enabled: true
+  minReplicas: 2
+  maxReplicas: 8

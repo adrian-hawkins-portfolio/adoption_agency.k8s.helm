@@ -1,0 +1,45 @@
+# Set to "Deployment" or "Job"
+kind: Deployment
+
+image:
+  repository: nginx
+  pullPolicy: IfNotPresent
+  tag: "latest"
+
+# ---------------------------------------------------------
+# Deployment Specific Configuration
+# ---------------------------------------------------------
+replicaCount: 1
+
+# Service (Only created if kind == Deployment AND enabled == true)
+service:
+  enabled: false
+  type: ClusterIP
+  port: 80
+
+# Ingress (Only created if kind == Deployment AND enabled == true)
+ingress:
+  enabled: false
+  className: ""
+  hosts:
+    - host: chart-example.local
+      paths:
+        - path: /
+          pathType: ImplementationSpecific
+
+# HPA (Only created if kind == Deployment AND enabled == true)
+autoscaling:
+  enabled: false
+  minReplicas: 1
+  maxReplicas: 5
+  targetCPUUtilizationPercentage: 80
+
+# ---------------------------------------------------------
+# Job Specific Configuration
+# ---------------------------------------------------------
+job:
+  backoffLimit: 4
+  restartPolicy: Never
+  # You can add command/args for the job here if needed
+  command: []
+  args: []
