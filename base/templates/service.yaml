@@ -2,16 +2,17 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: {{ include "dynamic-workload.fullname" . }}
+  name: {{ .Values.image.repository }}-svc
+  namespace: {{ .Release.Namespace }}
   labels:
-    {{- include "dynamic-workload.labels" . | nindent 4 }}
+    app: {{ .Values.image.repository }}-svc
 spec:
-  type: {{ .Values.service.type }}
+  type: ClusterIP
   ports:
-    - port: {{ .Values.service.port }}
+    - port: {{ .Values.port }}
       targetPort: http
       protocol: TCP
       name: http
   selector:
-    {{- include "dynamic-workload.selectorLabels" . | nindent 4 }}
+    app: {{ .Values.image.repository }}-deploy
 {{- end }}

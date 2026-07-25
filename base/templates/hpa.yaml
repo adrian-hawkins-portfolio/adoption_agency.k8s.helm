@@ -2,14 +2,15 @@
 apiVersion: autoscaling/v2
 kind: HorizontalPodAutoscaler
 metadata:
-  name: {{ include "dynamic-workload.fullname" . }}
+  name: {{ .Values.image.repository }}-hpa
+  namespace: {{ .Release.Namespace }}
   labels:
-    {{- include "dynamic-workload.labels" . | nindent 4 }}
+    app: {{ .Values.image.repository }}-hpa
 spec:
   scaleTargetRef:
     apiVersion: apps/v1
     kind: Deployment
-    name: {{ include "dynamic-workload.fullname" . }}
+    name: {{ .Values.image.repository }}-deploy
   minReplicas: {{ .Values.autoscaling.minReplicas }}
   maxReplicas: {{ .Values.autoscaling.maxReplicas }}
   metrics:

@@ -2,21 +2,21 @@
 apiVersion: batch/v1
 kind: Job
 metadata:
-  name: {{ include "dynamic-workload.fullname" . }}
+  name: {{ .Values.image.repository }}-job
+  namespace: {{ .Release.Namespace }}
   labels:
-    {{- include "dynamic-workload.labels" . | nindent 4 }}
+    app: {{ .Values.image.repository }}-job
 spec:
   backoffLimit: {{ .Values.job.backoffLimit }}
   template:
     metadata:
       labels:
-        {{- include "dynamic-workload.selectorLabels" . | nindent 8 }}
+        app: {{ .Values.image.repository }}-job
     spec:
       restartPolicy: {{ .Values.job.restartPolicy }}
       containers:
-        - name: {{ .Chart.Name }}
-          image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
-          imagePullPolicy: {{ .Values.image.pullPolicy }}
+        - name: {{ .Values.image.repository }}
+          image: "{{ .Values.image.registry}}{{ .Values.image.repository }}:{{ .Values.image.tag }}"
           {{- if .Values.job.command }}
           command:
             {{- toYaml .Values.job.command | nindent 12 }}

@@ -2,27 +2,25 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: {{ include "dynamic-workload.fullname" . }}
+  name: {{ .Values.image.repository }}-deploy
+  namespace: {{ .Release.Namespace }}
   labels:
-    {{- include "dynamic-workload.labels" . | nindent 4 }}
+    app: {{ .Values.image.repository }}-deploy
 spec:
-  {{- if not .Values.autoscaling.enabled }}
   replicas: {{ .Values.replicaCount }}
-  {{- end }}
   selector:
     matchLabels:
-      {{- include "dynamic-workload.selectorLabels" . | nindent 6 }}
+      app: {{ .Values.image.repository }}-deploy
   template:
     metadata:
       labels:
-        {{- include "dynamic-workload.selectorLabels" . | nindent 8 }}
+        app: {{ .Values.image.repository }}-deploy
     spec:
       containers:
-        - name: {{ .Chart.Name }}
-          image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
-          imagePullPolicy: {{ .Values.image.pullPolicy }}
+        - name: {{ .Values.image.repository }}
+          image: "{{ .Values.image.registry}}{{ .Values.image.repository }}:{{ .Values.image.tag }}"
           ports:
             - name: http
-              containerPort: 80
+              containerPort: {{ .Values.port }}
               protocol: TCP
 {{- end }}

@@ -1,37 +1,12 @@
-# Configuration for the "base" dependency
 base:
-  # Primary workload is a Job
   kind: Job
 
   image:
-    repository: myregistry/data-processor
+    repository: pet-database
     tag: "v1.2.0"
-    pullPolicy: IfNotPresent
 
-  # --- Job Specific Configuration ---
   job:
     backoffLimit: 3
-    restartPolicy: OnFailure
+    # restartPolicy: OnFailure
     command: ["/bin/sh", "-c"]
     args: ["python process_batch.py"]
-
-  # --- Pre-Job Initialization ---
-  # Runs to completion inside the Job pod BEFORE the main job container executes
-  initContainers:
-    - name: download-assets
-      image: myregistry/asset-fetcher:v1.2.0
-      command: ["/bin/sh", "-c"]
-      args: ["curl -o /data/input.csv https://example.com/data.csv"]
-      volumeMounts:
-        - name: shared-data
-          mountPath: /data
-
-  # --- Disabling Deployment Exponents ---
-  # These are automatically ignored when kind == Job, 
-  # but listed here for explicit clarity
-  service:
-    enabled: false
-  ingress:
-    enabled: false
-  autoscaling:
-    enabled: false

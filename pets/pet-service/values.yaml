@@ -1,38 +1,20 @@
-# Configuration for the "base" dependency
 base:
-  # Primary workload is the Deployment
   kind: Deployment
 
   image:
-    repository: myregistry/api-server
+    repository: pet-service
     tag: "v1.2.0"
-    pullPolicy: IfNotPresent
 
-  # --- Deployment Exponents ---
+  port: 8080
+
   service:
     enabled: true
-    type: ClusterIP
-    port: 8080
 
   ingress:
     enabled: true
-    className: "nginx"
-    hosts:
-      - host: app.example.com
-        paths:
-          - path: /
-            pathType: Prefix
 
   autoscaling:
-    enabled: true
+    enabled: false
     minReplicas: 2
     maxReplicas: 8
     targetCPUUtilizationPercentage: 80
-
-  # --- Pre-deployment Job (via Init Container) ---
-  # Runs to completion before the main container starts
-  initContainers:
-    - name: db-migration-job
-      image: myregistry/db-migrator:v1.2.0
-      command: ["/bin/sh", "-c"]
-      args: ["python manage.py migrate"]

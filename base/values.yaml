@@ -3,8 +3,10 @@ kind: Deployment
 
 image:
   repository: nginx
-  pullPolicy: IfNotPresent
+  registry: ghcr.io/adrian-hawkins-portfolio/
   tag: "latest"
+
+port: 8080
 
 # ---------------------------------------------------------
 # Deployment Specific Configuration
@@ -14,18 +16,10 @@ replicaCount: 1
 # Service (Only created if kind == Deployment AND enabled == true)
 service:
   enabled: false
-  type: ClusterIP
-  port: 80
 
-# Ingress (Only created if kind == Deployment AND enabled == true)
+# # Ingress (Only created if kind == Deployment AND enabled == true)
 ingress:
   enabled: false
-  className: ""
-  hosts:
-    - host: chart-example.local
-      paths:
-        - path: /
-          pathType: ImplementationSpecific
 
 # HPA (Only created if kind == Deployment AND enabled == true)
 autoscaling:
@@ -40,6 +34,5 @@ autoscaling:
 job:
   backoffLimit: 4
   restartPolicy: Never
-  # You can add command/args for the job here if needed
   command: []
   args: []
