@@ -20,6 +20,9 @@ spec:
       envFrom:
         - secretRef:
             name: pypi-info
+      env:
+        - name: DOCKER_CONFIG
+          value: /home/jenkins/.docker
   volumes:
     - name: docker-sock
       hostPath:

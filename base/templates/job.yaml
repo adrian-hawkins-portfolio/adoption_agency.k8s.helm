@@ -13,6 +13,8 @@ spec:
       labels:
         app: {{ .Values.image.repository }}-job
     spec:
+      imagePullSecrets:
+        - name: ghcr-secret
       restartPolicy: {{ .Values.job.restartPolicy }}
       containers:
         - name: {{ .Values.image.repository }}
