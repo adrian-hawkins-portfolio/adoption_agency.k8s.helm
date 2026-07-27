@@ -19,6 +19,9 @@ spec:
       containers:
         - name: {{ .Values.image.repository }}
           image: "{{ .Values.image.registry}}{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+          envFrom:
+            - secretRef:
+              name: flyway-creds
           {{- if .Values.job.command }}
           command:
             {{- toYaml .Values.job.command | nindent 12 }}
