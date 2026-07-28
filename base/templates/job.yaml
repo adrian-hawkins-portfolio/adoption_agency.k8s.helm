@@ -4,7 +4,7 @@ kind: Job
 metadata:
   name: {{ .Values.image.repository }}-job
   namespace: {{ .Release.Namespace }}
-annotations:
+  annotations:
     "helm.sh/hook": pre-install,pre-upgrade
     "helm.sh/hook-delete-policy": before-hook-creation
   labels:
