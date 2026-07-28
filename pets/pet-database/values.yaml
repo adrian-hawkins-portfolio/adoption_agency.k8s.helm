@@ -8,5 +8,5 @@ base:
   job:
     backoffLimit: 3
     # restartPolicy: OnFailure
-    command: ["/bin/sh", "-c"]
-    args: ["python process_batch.py"]
+    # command: ["/bin/sh", "-c"]
+    # args: ["python process_batch.py"]
