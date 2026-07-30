@@ -27,7 +27,7 @@ spec:
               protocol: TCP
           env:
             - name: DATABASE_CONNECTION_STRING
-              value: "postgresql://appuser:AppUserPassword123@postgresql.prod.svc.cluster.local:5432/prod"
+              value: "postgresql+asyncpg://appuser:AppUserPassword123@postgresql.prod.svc.cluster.local:5432/prod"
             - name: RABBIT_CONNECTION_STRING
               value: "amqp://user:password@rabbitmq.prod.svc.cluster.local:5672/"
           # envFrom:
