@@ -25,7 +25,7 @@ spec:
             - name: http
               containerPort: {{ .Values.port }}
               protocol: TCP
-          env:
-            - name: DATABASE_CONNECTION_STRING
-              value: "postgresql+asyncpg://postgres:postgres@localhost:5432/dev"
+          envFrom:
+            - secretRef:
+                name: boa-env
 {{- end }}
