@@ -1,0 +1,23 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+helmGlobals:
+  chartHome: ../../../
+helmCharts:
+- name: base
+  releaseName: pet-service
+  valuesFile: pet-service-values.yaml
+- name: base
+  releaseName: pet-database
+  valuesFile: pet-database-values.yaml
+- name: base
+  releaseName: pet-node
+  valuesFile: pet-node-values.yaml
+
+
+images:
+- name: pet-service
+  newTag: "22"
+- name: pet-database
+  newTag: "22"
+- name: pet-node
+  newTag: "22"

@@ -1,0 +1,8 @@
+kind: Job
+
+image:
+  repository: pet-database
+  tag: "v1.2.0"
+
+job:
+  backoffLimit: 3

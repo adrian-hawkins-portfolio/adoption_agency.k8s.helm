@@ -1,0 +1,20 @@
+
+kind: Deployment
+
+image:
+  repository: pet-service
+  tag: "v1.2.0"
+
+port: 8080
+
+service:
+  enabled: true
+
+ingress:
+  enabled: true
+
+autoscaling:
+  enabled: false
+  minReplicas: 2
+  maxReplicas: 8
+  targetCPUUtilizationPercentage: 80
