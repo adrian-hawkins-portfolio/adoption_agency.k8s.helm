@@ -1,0 +1,28 @@
+mode: standalone
+
+rootUser: "admin"
+rootPassword: "password123"
+
+persistence:
+  enabled: true
+  size: 5Gi
+
+# 1. Ingress for the Web Console UI
+consoleIngress:
+  enabled: true
+  ingressClassName: nginx
+  annotations:
+    nginx.ingress.kubernetes.io/proxy-body-size: "0"
+  hosts:
+    - minio.minikube.local
+  path: /
+
+# 2. Ingress for the S3 API (Image / File serving & SDK uploads)
+ingress:
+  enabled: true
+  ingressClassName: nginx
+  annotations:
+    nginx.ingress.kubernetes.io/proxy-body-size: "0"
+  hosts:
+    - s3.minikube.local
+  path: /

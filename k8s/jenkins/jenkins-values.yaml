@@ -2,7 +2,8 @@ controller:
   # jenkinsUriPrefix: "/jenkins-devops"
   admin:
     username: admin
-    password: mySuperSecretPassword
+    password: mySuperSecretPassword # consider controller.admin.existingSecret for real environments
+
   resources:
     requests:
       cpu: "500m"
@@ -16,3 +17,95 @@ controller:
     ingressClassName: nginx
     hostName: jenkins.minikube.local
     paths: []
+
+  # Exposes keys from existing Kubernetes Secrets to JCasC as ${<secretName>-<keyName>}.
+  # Create the secret BEFORE deploying:
+  #   kubectl create secret generic jenkins-github-token --namespace jenkins --from-literal=token='<your-github-personal-access-token>'
+  additionalExistingSecrets:
+    - name: jenkins-github-token
+      keyName: token
+
+  JCasC:
+    # Must stay true - it's what makes agent.podTemplates (below) get picked up,
+    # and it's what generates securityRealm/authorizationStrategy from admin.* above.
+    defaultConfig: true
+
+    configScripts:
+      custom-config: |
+        appearance:
+          prism:
+            theme: PRISM
+
+        security:
+          gitHostKeyVerificationConfiguration:
+            sshHostKeyVerificationStrategy: "knownHostsFileVerificationStrategy"
+
+        unclassified:
+          globalLibraries:
+            libraries:
+              - name: "jenkins-shared-library"
+                defaultVersion: "main"
+                retriever:
+                  modernSCM:
+                    libraryPath: "."
+                    scm:
+                      gitSource:
+                        remote: "https://github.com/adrian-hawkins-portfolio/adoption_agency.k8s.jenkins.git"
+                        traits:
+                          - "gitBranchDiscovery"
+
+        credentials:
+          system:
+            domainCredentials:
+              - credentials:
+                  - usernamePassword:
+                      id: "github-push-token"
+                      scope: GLOBAL
+                      username: "Adrian-Hawkins"
+                      password: "${jenkins-github-token-token}"
+
+agent:
+  # Adds a second pod template to the chart's default "kubernetes" cloud,
+  # alongside the built-in jnlp-agent template. Requires controller.JCasC.defaultConfig: true.
+  podTemplates:
+    docker-agent: |
+      - name: docker-agent
+        label: docker-agent
+        yamlMergeStrategy: "override"
+        yaml: |-
+          apiVersion: v1
+          kind: Pod
+          spec:
+            serviceAccountName: jenkins-helm-agent
+            imagePullSecrets:
+              - name: ghcr-secret
+            containers:
+              - name: jnlp
+                image: ghcr.io/adrian-hawkins-portfolio/docker-agent:4.0
+                securityContext:
+                  privileged: true
+                  runAsUser: 0
+                volumeMounts:
+                  - name: docker-sock
+                    mountPath: /var/run/docker.sock
+                  - name: ghcr-docker-config
+                    mountPath: /home/jenkins/.docker/config.json
+                    subPath: .dockerconfigjson
+                    readOnly: true
+                envFrom:
+                  - secretRef:
+                      name: pypi-info
+                env:
+                  - name: DOCKER_CONFIG
+                    value: /home/jenkins/.docker
+            volumes:
+              - name: docker-sock
+                hostPath:
+                  path: /var/run/docker.sock
+                  type: Socket
+              - name: ghcr-docker-config
+                secret:
+                  secretName: ghcr-secret
+                  items:
+                    - key: .dockerconfigjson
+                      path: .dockerconfigjson
