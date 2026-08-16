@@ -1,8 +1,7 @@
 controller:
-  # jenkinsUriPrefix: "/jenkins-devops"
   admin:
     username: admin
-    password: mySuperSecretPassword # consider controller.admin.existingSecret for real environments
+    password: mySuperSecretPassword 
 
   resources:
     requests:
@@ -18,16 +17,12 @@ controller:
     hostName: jenkins.minikube.local
     paths: []
 
-  # Exposes keys from existing Kubernetes Secrets to JCasC as ${<secretName>-<keyName>}.
-  # Create the secret BEFORE deploying:
-  #   kubectl create secret generic jenkins-github-token --namespace jenkins --from-literal=token='<your-github-personal-access-token>'
+
   additionalExistingSecrets:
     - name: jenkins-github-token
       keyName: token
 
   JCasC:
-    # Must stay true - it's what makes agent.podTemplates (below) get picked up,
-    # and it's what generates securityRealm/authorizationStrategy from admin.* above.
     defaultConfig: true
 
     configScripts:
@@ -65,8 +60,6 @@ controller:
                       password: "${jenkins-github-token-token}"
 
 agent:
-  # Adds a second pod template to the chart's default "kubernetes" cloud,
-  # alongside the built-in jnlp-agent template. Requires controller.JCasC.defaultConfig: true.
   podTemplates:
     docker-agent: |
       - name: docker-agent
