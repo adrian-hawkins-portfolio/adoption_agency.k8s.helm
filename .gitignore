@@ -126,6 +126,7 @@ temp/
 
 # Kustomize Helm chart downloads
 **/charts/
+**/secrets/
 
 # Optional – common Kubernetes / Helm ignores
 *.tgz
