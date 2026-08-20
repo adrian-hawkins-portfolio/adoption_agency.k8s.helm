@@ -6,4 +6,4 @@ resources:
   - jenkins/
   - observability/
   - workloads/
-  
+  - secrets/
