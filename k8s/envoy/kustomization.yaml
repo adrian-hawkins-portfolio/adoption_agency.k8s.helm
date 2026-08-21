@@ -1,0 +1,33 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+# resources:
+#   - https://github.com/kubernetes-sigs/gateway-api/releases/download/v1.6.1/standard-install.yaml
+#   - manifest.yaml
+
+# namespace: envoy-gateway-system
+
+helmCharts:
+  - name: gateway-helm
+    repo: oci://docker.io/envoyproxy
+    version: v1.9.0
+    releaseName: eg
+    namespace: envoy-gateway-system
+    includeCRDs: true
+    # valuesFile: envoy-values.yaml
+
+resources:
+  - envoy-gw-class.yaml
+  - envoy-gw.yaml
+#   - https://github.com/envoyproxy/gateway/releases/download/latest/quickstart.yaml
+
+# patches:
+#   - target:
+#       kind: Namespace
+#       name: default
+#     patch: |
+#       $patch: replace
+#       apiVersion: v1
+#       kind: Namespace
+#       metadata:
+#         name: default

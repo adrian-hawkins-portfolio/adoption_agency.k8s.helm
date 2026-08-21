@@ -5,3 +5,4 @@ resources:
   - monitoring-ns.yaml
   - jenkins-ns.yaml
   - prod-ns.yaml
+  - gateway-ns.yaml
