@@ -10,6 +10,7 @@ spec:
   parentRefs:
     - name: gateway-api
       namespace: default
+      sectionName: https
   hostnames:
     - {{ .Values.image.repository }}.minikube.local
   rules:
