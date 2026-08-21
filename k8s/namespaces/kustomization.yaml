@@ -6,3 +6,6 @@ resources:
   - jenkins-ns.yaml
   - prod-ns.yaml
   - gateway-ns.yaml
+  - broker-ns.yaml
+  - database-ns.yaml
+  - storage-ns.yaml

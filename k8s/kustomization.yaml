@@ -5,6 +5,9 @@ resources:
   - namespaces/
   - jenkins/
   - observability/
-  - workloads/
   - secrets/
   - envoy/
+  - database/
+  - rabbitmq/
+  - minio/
+  # - services/

@@ -3,8 +3,11 @@ kind: Kustomization
 
 # namespace: jenkins
 resources:
+  - secret-tls.yaml
   - envoy-gw-class.yaml
   - envoy-gw.yaml
   - jenkins-http-route.yaml
   - pg-tcp-route.yaml
-  - 
+  - grafana-prom-http-route.yaml
+  - pg-admin-http-route.yaml
+  - rabbitmq-http-route.yaml

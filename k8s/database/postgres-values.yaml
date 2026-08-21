@@ -1,0 +1,25 @@
+auth:
+  postgresPassword: "SuperSecurePostgresPassword123"
+  username: "appuser"
+  password: "AppUserPassword123"
+  database: "prod"
+
+primary:
+  initdb:
+      scripts:
+        01-grant-schema-permissions.sql: |
+          CREATE SCHEMA IF NOT EXISTS pet AUTHORIZATION appuser;
+          GRANT ALL PRIVILEGES ON DATABASE prod TO appuser;
+          GRANT ALL ON SCHEMA pet TO appuser;
+          ALTER DEFAULT PRIVILEGES IN SCHEMA pet GRANT ALL ON TABLES TO appuser;
+          ALTER DEFAULT PRIVILEGES IN SCHEMA pet GRANT ALL ON SEQUENCES TO appuser;
+  persistence:
+    enabled: true
+    size: 10Gi
+  resources:
+    requests:
+      cpu: 250m
+      memory: 256Mi
+    limits:
+      cpu: 1000m
+      memory: 1Gi

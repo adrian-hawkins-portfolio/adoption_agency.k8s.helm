@@ -4,7 +4,7 @@ kind: Kustomization
 resources:
   - flyway-creds.yaml
 
-namespace: prod
+namespace: database
 
 helmCharts:
   - name: postgresql

@@ -3,8 +3,4 @@ kind: Kustomization
 
 namespace: prod
 resources:
-  # - database/
-  # - jenkins/
-  # - observability/
-  # - rabbitmq/
   - pets/
