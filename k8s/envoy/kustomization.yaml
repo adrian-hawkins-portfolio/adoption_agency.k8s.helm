@@ -15,19 +15,3 @@ helmCharts:
     namespace: envoy-gateway-system
     includeCRDs: true
     # valuesFile: envoy-values.yaml
-
-resources:
-  - envoy-gw-class.yaml
-  - envoy-gw.yaml
-#   - https://github.com/envoyproxy/gateway/releases/download/latest/quickstart.yaml
-
-# patches:
-#   - target:
-#       kind: Namespace
-#       name: default
-#     patch: |
-#       $patch: replace
-#       apiVersion: v1
-#       kind: Namespace
-#       metadata:
-#         name: default

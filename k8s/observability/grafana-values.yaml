@@ -3,11 +3,7 @@ grafana:
   enabled: true
 
   ingress:
-    enabled: true
-    ingressClassName: nginx
-    hosts:
-      - grafana.minikube.local
-    path: /
+    enabled: false
 
   additionalDataSources:
     - name: Loki

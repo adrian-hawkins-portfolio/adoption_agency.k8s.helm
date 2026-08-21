@@ -14,5 +14,5 @@ auth:
   password: password
 
 ingress:
-  enabled: true
-  hostname: rabbitmq.minikube.local
+  enabled: false
+  # hostname: rabbitmq.minikube.local

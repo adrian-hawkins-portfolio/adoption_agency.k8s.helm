@@ -6,4 +6,5 @@ helmCharts:
     version: 15.0.0
     repo: https://charts.bitnami.com/bitnami
     releaseName: rabbitmq
+    includeCRDs: true
     valuesFile: rabbit-values.yaml

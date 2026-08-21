@@ -11,9 +11,11 @@ helmCharts:
     version: 18.8.4
     releaseName: postgresql
     repo: https://charts.bitnami.com/bitnami
+    includeCRDs: true
     valuesFile: postgres-values.yaml
   - name: pgadmin4
     version: 1.65.0
     releaseName: pgadmin
     repo: https://helm.runix.net
+    includeCRDs: true
     valuesFile: pg-admin-values.yaml

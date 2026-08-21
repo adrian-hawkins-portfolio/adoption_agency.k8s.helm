@@ -17,14 +17,7 @@ serverDefinitions:
 
 # Ingress Configuration
 ingress:
-  enabled: true
-  annotations:
-    kubernetes.io/ingress.class: nginx
-  hosts:
-    - host: pgadmin.minikube.local
-      paths:
-        - path: /
-          pathType: Prefix
+  enabled: false
 
 persistentVolume:
   enabled: true

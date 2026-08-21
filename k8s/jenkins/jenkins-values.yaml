@@ -12,10 +12,7 @@ controller:
       memory: "4Gi"
 
   ingress:
-    enabled: true
-    ingressClassName: nginx
-    hostName: jenkins.minikube.local
-    paths: []
+    enabled: false
 
 
   additionalExistingSecrets:

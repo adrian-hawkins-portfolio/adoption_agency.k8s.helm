@@ -8,3 +8,4 @@ helmCharts:
     repo: https://charts.min.io/
     releaseName: minio
     valuesFile: minio-values.yaml
+    includeCRDs: true

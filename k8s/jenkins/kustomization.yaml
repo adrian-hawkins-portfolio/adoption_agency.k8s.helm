@@ -10,4 +10,5 @@ helmCharts:
     repo: https://charts.jenkins.io
     version: 5.9.45
     releaseName: jenkins
+    includeCRDs: true
     valuesFile: jenkins-values.yaml

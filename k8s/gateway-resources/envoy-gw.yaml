@@ -19,6 +19,15 @@ spec:
         namespaces:
           from: All  #or Same or Selector
 
+      # Very postgress specific due to port
+    - name: postgres-tcp
+      protocol: TCP
+      port: 5432
+      allowedRoutes:
+        namespaces:
+          from: All
+        kinds:
+          - kind: TCPRoute
     # - name: https
     #   protocol: HTTPS
     #   port: 443
